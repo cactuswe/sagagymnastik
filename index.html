@@ -30,33 +30,33 @@
         }
 
         .container {
-            width: 200px;
-            height: 120px;
+            width: 180px;
+            height: 100px;
             perspective: 1000px;
             position: relative;
         }
 
         .cylinder {
             width: 100%;
-            height: 120px;
+            height: 100px;
             position: absolute;
             transform-style: preserve-3d;
-            transform-origin: center center;
-            transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-origin: center;
+            transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .trick {
             position: absolute;
             width: 100%;
-            height: 40px;
-            line-height: 40px;
-            font-size: 18px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 16px;
             font-weight: bold;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
-            transform-origin: center center -80px;
+            transform-origin: center center -50px;
         }
 
         .btn {
@@ -102,8 +102,8 @@
 
         const cylinder = document.getElementById("cylinder");
         let angle = 0;
-        let trickCount = 8; 
-        let radius = 80; 
+        let trickCount = 10; // Fler tricks på cylindern
+        let radius = 50; // Mindre radie för tajtare tricks
 
         function setupCylinder() {
             for (let i = 0; i < trickCount; i++) {
