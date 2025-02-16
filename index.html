@@ -31,7 +31,7 @@
 
         .container {
             width: 200px;
-            height: 120px;
+            height: 40px;
             perspective: 1000px;
             position: relative;
             overflow: hidden;
@@ -39,7 +39,7 @@
 
         .cylinder {
             width: 100%;
-            height: 120px;
+            height: 100px;
             position: absolute;
             transform-style: preserve-3d;
             transform-origin: center center;
@@ -49,15 +49,15 @@
         .trick {
             position: absolute;
             width: 100%;
-            height: 30px;
-            line-height: 30px;
+            height: 40px;
+            line-height: 40px;
             font-size: 16px;
             font-weight: bold;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
-            transform-origin: center center -50px; /* Justerad Z-axel */
+            transform-origin: center center -50px;
         }
 
         .btn {
@@ -103,8 +103,8 @@
 
         const cylinder = document.getElementById("cylinder");
         let angle = 0;
-        let trickCount = 8; // Antal tricks på cylindern
-        let radius = 50; // Justerad för korrekt centrering
+        let trickCount = 6; // Antal tricks på cylindern
+        let radius = 50; // Avstånd för att centrera tricksen
 
         function setupCylinder() {
             for (let i = 0; i < trickCount; i++) {
@@ -119,11 +119,12 @@
 
         function generateTrick() {
             let randomRotations = Math.floor(Math.random() * 5) + 3;
-            let targetAngle = angle - (randomRotations * 360 + (360 / trickCount) * Math.floor(Math.random() * trickCount));
+            let stopIndex = Math.floor(Math.random() * trickCount);
+            let targetAngle = angle - (randomRotations * 360 + (360 / trickCount) * stopIndex);
 
             let interval = setInterval(() => {
                 let trickDivs = document.querySelectorAll(".trick");
-                trickDivs.forEach((div, i) => {
+                trickDivs.forEach(div => {
                     div.innerText = tricks[Math.floor(Math.random() * tricks.length)];
                 });
             }, 100);
