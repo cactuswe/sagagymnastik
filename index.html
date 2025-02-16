@@ -41,8 +41,8 @@
             height: 120px;
             position: absolute;
             transform-style: preserve-3d;
-            transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
             transform-origin: center center;
+            transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .trick {
@@ -56,7 +56,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
-            transform-origin: center center; /* Mindre cylinder */
+            transform-origin: center center -80px;
         }
 
         .btn {
@@ -102,15 +102,14 @@
 
         const cylinder = document.getElementById("cylinder");
         let angle = 0;
-        let trickCount = 10; // Färre tricks för mindre cylinder
-        let radius = 50; // Mindre radie
-        let currentIndex = 0;
+        let trickCount = 8; 
+        let radius = 80; 
 
         function setupCylinder() {
             for (let i = 0; i < trickCount; i++) {
                 let trickDiv = document.createElement("div");
                 trickDiv.className = "trick";
-                trickDiv.innerText = tricks[i % tricks.length]; 
+                trickDiv.innerText = tricks[Math.floor(Math.random() * tricks.length)];
                 let angleStep = (360 / trickCount) * i;
                 trickDiv.style.transform = `rotateX(${angleStep}deg) translateZ(${radius}px)`;
                 cylinder.appendChild(trickDiv);
@@ -118,20 +117,24 @@
         }
 
         function generateTrick() {
-            let randomStep = Math.floor(Math.random() * trickCount);
-            currentIndex = (currentIndex + randomStep) % tricks.length;
-            angle -= (360 / trickCount) * randomStep;
+            let randomRotations = Math.floor(Math.random() * 5) + 3;
+            let targetAngle = angle - (randomRotations * 360 + (360 / trickCount) * Math.floor(Math.random() * trickCount));
 
-            cylinder.style.transition = "transform 2s ease-out";
-            cylinder.style.transform = `rotateX(${angle}deg)`;
-
-            setTimeout(() => {
+            let interval = setInterval(() => {
                 let trickDivs = document.querySelectorAll(".trick");
                 trickDivs.forEach((div, i) => {
-                    let newIndex = (currentIndex + i) % tricks.length;
-                    div.innerText = tricks[newIndex];
+                    div.innerText = tricks[Math.floor(Math.random() * tricks.length)];
                 });
-            }, 2000);
+            }, 100);
+
+            cylinder.style.transition = "transform 3s ease-out";
+            cylinder.style.transform = `rotateX(${targetAngle}deg)`;
+
+            setTimeout(() => {
+                clearInterval(interval);
+            }, 3000);
+
+            angle = targetAngle;
         }
 
         setupCylinder();
