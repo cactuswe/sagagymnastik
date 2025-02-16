@@ -7,8 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Gymnastik Trick Generator</title>
     <style>
+        /* Grundläggande stil */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -16,34 +17,63 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: #f4f4f4;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 { font-size: 24px; }
-        p { font-size: 20px; margin: 20px 0; font-weight: bold; }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            background: #007bff;
+            background: linear-gradient(135deg, #007bff, #00d4ff);
             color: white;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        button:hover { background: #0056b3; }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        #trick {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 40px;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            background: #ffcc00;
+            color: #333;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #ffaa00;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            background: #ff9900;
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Gymnastik Trick Generator</h1>
-        <p id="trick">Tryck på knappen för ett trick!</p>
-        <button onclick="generateTrick()">Slumpa Trick</button>
+        <p id="trick">Tryck på knappen för att slumpa ett trick!</p>
+        <button onclick="generateTrick()">🎲 Slumpa Trick</button>
     </div>
 
     <script>
@@ -51,17 +81,22 @@
             "Rondat Flickis", "Rondat Flickis Salto", "Salto", "Flickis", "Handvolt",
             "Framåtvolt", "Helskruv", "Halvskruv", "Handstående", "Rondat",
             "Rondat Salto", "Dubbelvolt", "En och en halv skruv", "Helhopp",
-            "Våghalvstående", "Piksitt", 
-            "Sträckt salto", "Pik salto", "Tuck salto", "Dubbel salto",
-            "Arabian", "Tsukahara", "Kasamatsu", "Yurchenko", "Triffis",
-            "Dubbel skruv", "Trippelskruv", "Full-in", "Full-out",
+            "Våghalvstående", "Piksitt", "Sträckt salto", "Pik salto", "Tuck salto",
+            "Dubbel salto", "Arabian", "Tsukahara", "Kasamatsu", "Yurchenko",
+            "Triffis", "Dubbel skruv", "Trippelskruv", "Full-in", "Full-out",
             "Layout step-out", "Dubbel layout", "Korsvolt", "Planche",
             "Flair", "Manna", "Hefesto", "Malteserkors", "Tkatchev"
         ];
 
         function generateTrick() {
             const randomIndex = Math.floor(Math.random() * tricks.length);
-            document.getElementById("trick").innerText = tricks[randomIndex];
+            const trickElement = document.getElementById("trick");
+            
+            trickElement.style.opacity = "0";
+            setTimeout(() => {
+                trickElement.innerText = tricks[randomIndex];
+                trickElement.style.opacity = "1";
+            }, 300);
         }
     </script>
 
