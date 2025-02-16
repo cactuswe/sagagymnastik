@@ -56,7 +56,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
-            transform-origin: center center -80px; /* Mindre cylinder */
+            transform-origin: center center; /* Mindre cylinder */
         }
 
         .btn {
@@ -102,8 +102,8 @@
 
         const cylinder = document.getElementById("cylinder");
         let angle = 0;
-        let trickCount = 8; // Färre tricks för mindre cylinder
-        let radius = 80; // Mindre radie
+        let trickCount = 10; // Färre tricks för mindre cylinder
+        let radius = 50; // Mindre radie
         let currentIndex = 0;
 
         function setupCylinder() {
