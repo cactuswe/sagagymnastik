@@ -2,13 +2,22 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Gymnastik Trick Generator</title>
-    <link src="manifest.json">
+    <link rel="manifest" href="manifest.json">
     <style>
-        /* Grundläggande stil */
+        /* Blockera zoom, markering och långtryck */
+        * {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            user-select: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
@@ -17,36 +26,39 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             background: linear-gradient(135deg, #007bff, #00d4ff);
-            color: white;
+            overflow: hidden;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
             width: 90%;
             max-width: 400px;
-            text-align: center;
+            perspective: 1000px;
         }
 
-        h1 {
-            font-size: 26px;
-            margin-bottom: 15px;
+        .cylinder {
+            width: 100%;
+            height: 120px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        #trick {
+        .trick {
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            line-height: 100px;
             font-size: 24px;
             font-weight: bold;
-            margin: 20px 0;
-            min-height: 40px;
-            transition: opacity 0.3s ease-in-out;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backface-visibility: hidden;
         }
 
-        button {
+        .btn {
+            margin-top: 20px;
             padding: 12px 20px;
             font-size: 18px;
             border: none;
@@ -58,12 +70,12 @@
             transition: background 0.3s, transform 0.2s;
         }
 
-        button:hover {
+        .btn:hover {
             background: #ffaa00;
             transform: scale(1.05);
         }
 
-        button:active {
+        .btn:active {
             background: #ff9900;
             transform: scale(0.95);
         }
@@ -72,10 +84,12 @@
 <body>
 
     <div class="container">
-        <h1>Gymnastik Trick Generator</h1>
-        <p id="trick">Tryck på knappen för att slumpa ett trick!</p>
-        <button onclick="generateTrick()">🎲 Slumpa Trick</button>
+        <div class="cylinder" id="cylinder">
+            <div class="trick">Tryck på knappen!</div>
+        </div>
     </div>
+    
+    <button class="btn" onclick="generateTrick()">🎲 Slumpa Trick</button>
 
     <script>
         const tricks = [
@@ -89,15 +103,20 @@
             "Flair", "Manna", "Hefesto", "Malteserkors", "Tkatchev"
         ];
 
+        let angle = 0;
+
         function generateTrick() {
             const randomIndex = Math.floor(Math.random() * tricks.length);
-            const trickElement = document.getElementById("trick");
-            
-            trickElement.style.opacity = "0";
+            const cylinder = document.getElementById("cylinder");
+
+            // Roterar cylindern för att simulera snurrande effekt
+            angle += 360;
+            cylinder.style.transform = `rotateX(${angle}deg)`;
+
+            // Väntar tills snurrandet är klart innan det nya tricket visas
             setTimeout(() => {
-                trickElement.innerText = tricks[randomIndex];
-                trickElement.style.opacity = "1";
-            }, 300);
+                cylinder.innerHTML = `<div class="trick">${tricks[randomIndex]}</div>`;
+            }, 500);
         }
     </script>
 
