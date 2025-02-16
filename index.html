@@ -30,7 +30,7 @@
         }
 
         .container {
-            width: 300px;
+            width: 200px;
             height: 120px;
             perspective: 1000px;
             position: relative;
@@ -42,6 +42,7 @@
             position: absolute;
             transform-style: preserve-3d;
             transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-origin: center center;
         }
 
         .trick {
@@ -49,13 +50,13 @@
             width: 100%;
             height: 40px;
             line-height: 40px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
-            transform-origin: center center -100px; /* Fäster på cylinderns yta */
+            transform-origin: center center -80px; /* Mindre cylinder */
         }
 
         .btn {
@@ -101,15 +102,15 @@
 
         const cylinder = document.getElementById("cylinder");
         let angle = 0;
-        let trickCount = 10; // Antal tricks runt cylindern
-        let radius = 100; // Avstånd från centrum
+        let trickCount = 8; // Färre tricks för mindre cylinder
+        let radius = 80; // Mindre radie
         let currentIndex = 0;
 
         function setupCylinder() {
             for (let i = 0; i < trickCount; i++) {
                 let trickDiv = document.createElement("div");
                 trickDiv.className = "trick";
-                trickDiv.innerText = tricks[i % tricks.length]; // Cirkulärt trick-flöde
+                trickDiv.innerText = tricks[i % tricks.length]; 
                 let angleStep = (360 / trickCount) * i;
                 trickDiv.style.transform = `rotateX(${angleStep}deg) translateZ(${radius}px)`;
                 cylinder.appendChild(trickDiv);
@@ -117,9 +118,9 @@
         }
 
         function generateTrick() {
-            let randomStep = Math.floor(Math.random() * trickCount); // Väljer slumpmässigt trick
+            let randomStep = Math.floor(Math.random() * trickCount);
             currentIndex = (currentIndex + randomStep) % tricks.length;
-            angle -= (360 / trickCount) * randomStep; // Roterar cylindern
+            angle -= (360 / trickCount) * randomStep;
 
             cylinder.style.transition = "transform 2s ease-out";
             cylinder.style.transform = `rotateX(${angle}deg)`;
