@@ -29,35 +29,14 @@
             overflow: hidden;
         }
 
-        .container {
-            width: 200px;
-            height: 40px;
-            perspective: 1000px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cylinder {
-            width: 100%;
-            height: 100px;
-            position: absolute;
-            transform-style: preserve-3d;
-            transform-origin: center center;
-            transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .trick {
-            position: absolute;
-            width: 100%;
-            height: 40px;
-            line-height: 40px;
-            font-size: 16px;
+        .trick-box {
+            font-size: 24px;
             font-weight: bold;
             background: white;
+            padding: 15px 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            transform-origin: center center -50px;
+            transition: opacity 0.3s ease-in-out;
         }
 
         .btn {
@@ -86,9 +65,7 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="cylinder" id="cylinder"></div>
-    </div>
+    <div class="trick-box" id="trickBox">🎲 Tryck på knappen!</div>
     
     <button class="btn" onclick="generateTrick()">🎲 Slumpa Trick</button>
 
@@ -101,45 +78,21 @@
             "Dubbel salto", "Arabian", "Tsukahara", "Kasamatsu", "Yurchenko"
         ];
 
-        const cylinder = document.getElementById("cylinder");
-        let angle = 0;
-        let trickCount = 6; // Antal tricks på cylindern
-        let radius = 50; // Avstånd för att centrera tricksen
-
-        function setupCylinder() {
-            for (let i = 0; i < trickCount; i++) {
-                let trickDiv = document.createElement("div");
-                trickDiv.className = "trick";
-                trickDiv.innerText = tricks[Math.floor(Math.random() * tricks.length)];
-                let angleStep = (360 / trickCount) * i;
-                trickDiv.style.transform = `rotateX(${angleStep}deg) translateZ(${radius}px)`;
-                cylinder.appendChild(trickDiv);
-            }
-        }
-
         function generateTrick() {
-            let randomRotations = Math.floor(Math.random() * 5) + 3;
-            let stopIndex = Math.floor(Math.random() * trickCount);
-            let targetAngle = angle - (randomRotations * 360 + (360 / trickCount) * stopIndex);
-
+            const trickBox = document.getElementById("trickBox");
             let interval = setInterval(() => {
-                let trickDivs = document.querySelectorAll(".trick");
-                trickDivs.forEach(div => {
-                    div.innerText = tricks[Math.floor(Math.random() * tricks.length)];
-                });
-            }, 100);
-
-            cylinder.style.transition = "transform 3s ease-out";
-            cylinder.style.transform = `rotateX(${targetAngle}deg)`;
+                trickBox.innerText = tricks[Math.floor(Math.random() * tricks.length)];
+            }, 50); // Byter text snabbt
 
             setTimeout(() => {
                 clearInterval(interval);
-            }, 3000);
-
-            angle = targetAngle;
+                trickBox.style.opacity = "0"; // Fadar ut texten kort
+                setTimeout(() => {
+                    trickBox.innerText = tricks[Math.floor(Math.random() * tricks.length)];
+                    trickBox.style.opacity = "1"; // Fadar in den slutgiltiga texten
+                }, 200);
+            }, 1500); // Stoppar efter 1.5 sekunder
         }
-
-        setupCylinder();
     </script>
 
 </body>
